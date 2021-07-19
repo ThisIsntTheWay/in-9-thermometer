@@ -1,7 +1,5 @@
 #include <Arduino.h>
 
-// Uncomment to use external VREF
-//#define VREF_EXT
 #define PWM_PIN     1
 #define LED_PIN     3
 #define SENSOR_PIN  2
@@ -9,6 +7,8 @@
 
 #define DEBUG
 
+// Uncomment to use external VREF
+//#define VREF_EXT
 #ifdef VREF_EXT
   #define VREF 3.3
 #else
