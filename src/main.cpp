@@ -1,6 +1,7 @@
 #include <Arduino.h>
 
 #define PWM_PIN     1
+#define POT_PIN     4
 #define LED_PIN     3
 #define SENSOR_PIN  2
 #define MVOFFSET    0.5
@@ -19,6 +20,7 @@
   ----------------------- */
 int pwm;
 int sensVal;
+int potVal;
 int currMillis;
 int startMillis;
 
@@ -34,6 +36,7 @@ float temperature;
 void setup() {
   pinMode(PWM_PIN, OUTPUT);
   pinMode(LED_PIN, OUTPUT);
+  pinMode(POT_PIN, INPUT);
   pinMode(SENSOR_PIN, INPUT);
 
   #ifdef DEBUG
@@ -65,10 +68,12 @@ void loop() {
   if ((currMillis - startMillis) > 5000)
     digitalWrite(LED_PIN, 0);
 
-  // Parse TMP36 data
+  // ADC readings
   sensVal = analogRead(SENSOR_PIN);
-  TMP36volt = sensVal * VREF;
+  potVal = analogRead(POT_PIN);
 
+  // Parse TMP36 data
+  TMP36volt = sensVal * VREF;
   temperature = (TMP36volt - MVOFFSET) * 100;
 
   #ifdef DEBUG
@@ -77,6 +82,7 @@ void loop() {
     Serial.printf(" > Raw: %d\n", sensVal);
     Serial.printf(" > Raw with VREF %f\n", TMP36volt);
     Serial.printf(" > Temperature (C): %d\n", temperature);
+    Serial.printf(" > Potentiometer: %d\n", temperature);
   #endif
 
   // Map temperature to PWM signal and push said signal
