@@ -6,9 +6,8 @@
 #define MVOFFSET    0.5
 
 #define DEBUG
-
-// Uncomment to use external VREF
 //#define VREF_EXT
+
 #ifdef VREF_EXT
   #define VREF 3.3
 #else
@@ -18,9 +17,13 @@
 /* ----------------------
     VARIABLES
   ----------------------- */
+int pwm;
 int sensVal;
 int currMillis;
 int startMillis;
+
+int tempMin = 10; 
+int tempMax = 40;
 
 float TMP36volt;
 float temperature;
@@ -76,5 +79,9 @@ void loop() {
     Serial.printf(" > Temperature (C): %d\n", temperature);
   #endif
 
-  delay(500);
+  // Map temperature to PWM signal and push said signal
+  pwm = map(temperature, tempMin, tempMax, 0, 255);
+  analogWrite(PWM_PIN, pwm);
+
+  delay(1000);
 }
