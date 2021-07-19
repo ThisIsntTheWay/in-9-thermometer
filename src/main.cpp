@@ -57,10 +57,6 @@ void setup() {
 }
 
 void loop() {
-  #ifdef DEBUG
-    Serial.println(F("--------------"));
-  #endif
-
   // Check if status LED should still light up
   currMillis = millis();
   if ((currMillis - startMillis) > 5000)
@@ -73,10 +69,11 @@ void loop() {
   temperature = (TMP36volt - MVOFFSET) * 100;
 
   #ifdef DEBUG
+    Serial.println(F("--------------"));
     Serial.printf("ADC (Pin: %d) readings:\n", SENSOR_PIN);
     Serial.printf(" > Raw: %d\n", sensVal);
     Serial.printf(" > Raw with VREF %f\n", TMP36volt);
-    Serial.printf(" > Temperatuer (C): %d\n", temperature);
+    Serial.printf(" > Temperature (C): %d\n", temperature);
   #endif
 
   delay(500);
