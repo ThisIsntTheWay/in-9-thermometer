@@ -1,5 +1,5 @@
 # About
-This is a thermometer using an IN-9 tube and an ATtiny85, coupled with a run-of-the-mill temperature sensor.
+This is a thermometer using an IN-9 tube and an ATtiny85, coupled with a run-of-the-mill temperature sensor.  
 It uses a single 18650 Li-Ion battery as a power source.
 
 ## Components
