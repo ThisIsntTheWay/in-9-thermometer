@@ -76,18 +76,20 @@ void loop() {
   TMP36volt = sensVal * VREF;
   temperature = (TMP36volt - MVOFFSET) * 100;
 
+  // Map temperature to PWM signal and push said signal
+  pwm = map(temperature, tempMin, tempMax, 0, 255);
+  analogWrite(PWM_PIN, pwm);
+
   #ifdef DEBUG
     Serial.println(F("--------------"));
+    Serial.printf("PWM value: %d\n", temperature);
     Serial.printf("ADC (Pin: %d) readings:\n", SENSOR_PIN);
     Serial.printf(" > Raw: %d\n", sensVal);
     Serial.printf(" > Raw with VREF %f\n", TMP36volt);
     Serial.printf(" > Temperature (C): %d\n", temperature);
-    Serial.printf(" > Potentiometer: %d\n", temperature);
+    Serial.printf("ADC (Pin: %d) readings:\n", POT_PIN);
+    Serial.printf(" > Raw: %d\n", temperature);
   #endif
-
-  // Map temperature to PWM signal and push said signal
-  pwm = map(temperature, tempMin, tempMax, 0, 255);
-  analogWrite(PWM_PIN, pwm);
 
   delay(1000);
 }
