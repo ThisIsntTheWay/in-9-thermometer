@@ -123,13 +123,18 @@ void loop() {
     if (bounce.read() == 0) {
       if (!isHeld) {              // Init timer
         heldMillis = millis();
-        isHeld = true;
       }
-
-      if ((currMillis - heldMillis) > PRESS_INT) {
-        isCalibrating = true;
+      
+      isHeld = true;
+      
+      if (!isCalibrating) {
+        if ((currMillis - heldMillis) > PRESS_INT) {
+          isCalibrating = true;
+        } else {
+          isCalibrating = false;
+        }
       } else {
-        isCalibrating = false;
+        // TODO: Code to execute if not in calib mode
       }
     } else {
       isHeld = false;             // Nullify timer
@@ -141,8 +146,12 @@ void loop() {
     digitalWrite(LED_PIN, 1);
     delay (1000);
     digitalWrite(LED_PIN, 0);
-    
+
     calib = map(potVal, 0, 1024, CALIB_MIN, CALIB_MAX);
+
+    #ifdef DEBUG
+      Serial.printf("Calibration mapped to: %d\n", calib);
+    #endif
   }
 
   delay(1000);
